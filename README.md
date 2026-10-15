@@ -85,10 +85,6 @@ Historical data, climate averages, forecasts, and user-entered assumptions are d
 
 ## Design backlog
 
-- Remove the beta badge.
-- Refine the setup controls and home-view color grading.
-- Retain the deep-sea bioluminescence reference for a future landing cover, with the home model on a separate tab. The oscillating-gradient scene is deferred and must not be built yet.
-
 ## License
 
 No project-wide license has been selected. Public access does not grant a general open-source license.
