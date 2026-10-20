@@ -1,0 +1,19 @@
+project_id,test_id,status,last_run_utc,evidence_path,reviewer,notes
+P01,S-01,NOT_RUN,,,,Historical SSH login reported; fresh portfolio evidence pending
+P01,S-02,NOT_RUN,,,,Historical session recovery reported; repeat with timestamps
+P01,S-03,NOT_RUN,,,,Service and supervised reboot recovery pending
+P02,D-01,NOT_RUN,,,,Exposure and permission baseline pending
+P02,D-02,NOT_RUN,,,,Synthetic restore demonstration pending
+P02,D-03,NOT_RUN,,,,Detection and control sample pending
+P03,O-01,NOT_RUN,,,,Lab scope and isolation pending
+P03,O-02,NOT_RUN,,,,Two reproducible findings pending
+P03,O-03,NOT_RUN,,,,Mitigation and paired defense retest pending
+P04,E-01,NOT_RUN,,,,Current board and backup identity must be reconfirmed
+P04,E-02,NOT_RUN,,,,Clean source build pending
+P04,E-03,NOT_RUN,,,,Device functional and recovery tests pending
+P05,L-01,NOT_RUN,,,,Historical UI/model observations; fresh service-path test pending
+P05,L-02,NOT_RUN,,,,Thirty workload outcomes pending
+P05,L-03,NOT_RUN,,,,Offline and restore subcases pending
+P06,A-01,NOT_RUN,,,,Read-only assistant implementation pending
+P06,A-02,NOT_RUN,,,,Runtime enforcement tests pending
+P06,A-03,NOT_RUN,,,,Evaluation and held-out review pending
