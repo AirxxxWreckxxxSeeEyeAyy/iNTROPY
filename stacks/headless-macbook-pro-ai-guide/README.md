@@ -56,6 +56,10 @@ See [troubleshooting](docs/troubleshooting.md). Before changing an existing inst
 
 Start with one model at a time on an 8 GB Mac. Download size is not the same as working memory. Longer conversations and larger context settings can increase memory pressure. [Model sources and licenses](docs/models-and-licenses.md)
 
+## Research and code-quality guidance
+
+See [AI-assisted coding research](docs/ai-assisted-development.md) for plain-language prompt practices, Google Scholar links, and DOJ, State, and executive-branch cybersecurity reviews. See [Python checks and MCP tools](docs/tooling-and-mcp.md) for Ruff/Black setup and MCP options for Codex or Claude Code.
+
 ## What “beta” means here
 
 The original machine setup has been exercised, including SSH reconnection and a display-off check. The portable helpers in this repository package those techniques for other machines; see the [test record](docs/tested-configuration.md) for exactly what was and was not tested.

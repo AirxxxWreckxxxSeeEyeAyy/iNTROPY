@@ -5,7 +5,6 @@ This does not download software, enable SSH, edit SSH keys, or change global
 power settings. Use --apply to write files, and --load to start the services.
 """
 import argparse
-from datetime import datetime
 import os
 from pathlib import Path
 import plistlib
@@ -16,6 +15,7 @@ import shutil
 import socket
 import subprocess
 import sys
+from datetime import datetime
 
 PREFIX = 'org.headlessmac'
 HERE = Path(__file__).resolve().parent
