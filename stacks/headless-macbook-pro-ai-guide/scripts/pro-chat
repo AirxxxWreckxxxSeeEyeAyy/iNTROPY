@@ -1,0 +1,36 @@
+#!/bin/bash
+# MIT License. Run on the client Mac. Usage: pro-chat [SSH_ALIAS] [MODEL]
+set -u
+host=${1:-pro}
+model=${2:-gemma3:4b}
+if [[ $# -gt 2 || ! "$host" =~ ^[a-zA-Z0-9][a-zA-Z0-9._-]*$ || ! "$model" =~ ^[a-zA-Z0-9][a-zA-Z0-9._:/-]*$ ]]; then
+    printf 'Usage: pro-chat [SSH_ALIAS] [MODEL]; use an SSH config alias and a local model tag.\n' >&2
+    exit 2
+fi
+if [[ ! -t 0 || ! -t 1 ]]; then
+    printf 'Open an interactive Terminal on the client Mac to run pro-chat.\n' >&2
+    exit 1
+fi
+trap 'exit 130' INT
+trap 'exit 143' TERM
+trap 'exit 129' HUP
+# Keep the client awake while this tab is open; allow its display to turn off.
+/usr/bin/caffeinate -i -w "$$" >/dev/null 2>&1 &
+# A digest gives each model its own screen session, avoiding punctuation collisions.
+digest=$(printf '%s' "$model" | /usr/bin/shasum -a 256)
+session="local-ai-${digest:0:16}"
+remote="model='$model'; session='$session'; "
+remote+='ollama_bin=$(command -v ollama || true); '
+remote+='if test -z "$ollama_bin"; then for p in "$HOME/.local/bin/ollama" /usr/local/bin/ollama /opt/homebrew/bin/ollama /Applications/Ollama.app/Contents/Resources/ollama "$HOME/Applications/Ollama.app/Contents/Resources/ollama"; do if test -x "$p"; then ollama_bin=$p; break; fi; done; fi; '
+remote+='if test -z "$ollama_bin"; then printf "Ollama was not found on the server.\n" >&2; exit 1; fi; '
+remote+='"$ollama_bin" show "$model" >/dev/null || { printf "Download this model on the Pro before starting chat.\n" >&2; exit 1; }; '
+remote+='exec /usr/bin/screen -xRR -S "$session" /usr/bin/caffeinate -i "$ollama_bin" run "$model"'
+while true; do
+    /usr/bin/ssh -o BatchMode=yes -o StrictHostKeyChecking=yes \
+        -o ServerAliveInterval=30 -o ServerAliveCountMax=3 -o ConnectTimeout=8 \
+        -t "$host" "$remote"
+    result=$?
+    if [[ "$result" -ne 255 ]]; then exit "$result"; fi
+    printf '\nSSH disconnected. Retrying in 5 seconds; Ctrl-C stops reconnecting.\n' >&2
+    /bin/sleep 5
+done
