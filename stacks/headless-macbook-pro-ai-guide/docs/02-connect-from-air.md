@@ -106,7 +106,7 @@ The client installer also adds `~/.local/bin/pro-chat`. In **Air Terminal**:
 ~/.local/bin/pro-chat pro gemma3:4b
 ```
 
-At `>>>`, type your message. To leave the session running, press **Ctrl-A**, release both keys, then press **D**. Run the same command later to return to it. `/bye` exits that chat program; detaching keeps it alive.
+At `>>>`, type a short message. To leave the session running, press **Ctrl-A**, release both keys, then press **D**. Run the same command later to return to it. `/bye` exits that chat program; detaching keeps it alive.
 
 For another downloaded model:
 

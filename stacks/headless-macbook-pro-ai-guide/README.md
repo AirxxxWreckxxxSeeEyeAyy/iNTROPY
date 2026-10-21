@@ -44,7 +44,7 @@ Follow these in order. Every command is labeled for the Mac where you run it.
 3. **[Use Open WebUI without Terminal, then go offline](docs/03-offline-webui.md)** — first account, model selection, downloads, and an offline acceptance test.
 4. **[Save startup tabs and manage power](docs/04-startup-and-power.md)** — optional Air Codex + Pro Gemma tabs; screen-off behavior and restart limits.
 
-Need help? See [troubleshooting](docs/troubleshooting.md). Before changing an existing installation, read the migration notes in the server guide.
+See [troubleshooting](docs/troubleshooting.md). Before changing an existing installation, read the migration notes in the server guide.
 
 ## Model choices for this beta
 
@@ -60,7 +60,7 @@ Start with one model at a time on an 8 GB Mac. Download size is not the same as 
 
 The original machine setup has been exercised, including SSH reconnection and a display-off check. The portable helpers in this repository package those techniques for other machines; see the [test record](docs/tested-configuration.md) for exactly what was and was not tested.
 
-Please report the step, Mac chip/RAM, macOS version, and software versions when something fails. Do not include keys, passwords, chat databases, or personal documents in an issue.
+Never publish SSH keys, passwords, chat databases, or personal documents.
 
 ## Included tools
 

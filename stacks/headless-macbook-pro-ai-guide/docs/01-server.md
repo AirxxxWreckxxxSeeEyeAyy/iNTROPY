@@ -54,7 +54,7 @@ Try a short conversation:
 ollama run gemma3:4b
 ```
 
-At `>>>`, type a question. Type `/bye` to return to the shell. To try Llama instead:
+At `>>>`, type a short message. Type `/bye` to return to the shell. To try Llama instead:
 
 ```sh
 ollama run llama3.2:3b
