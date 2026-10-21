@@ -1,0 +1,14 @@
+# Keep raw/private evidence outside the public portfolio.
+private/
+raw-evidence/
+*.pem
+*.key
+.env
+.env.*
+!.env.example
+*.db
+*.sqlite
+*.sqlite3
+__pycache__/
+.ruff_cache/
+.DS_Store
