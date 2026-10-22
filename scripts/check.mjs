@@ -7,8 +7,12 @@ if (process.argv.length > 2) {
   process.exit(64);
 }
 const checks = [
-  ["TypeScript", ["node_modules/typescript/bin/tsc", "--noEmit", "--incremental", "false"]],
-  ["ESLint", ["node_modules/eslint/bin/eslint.js", ".", "--ignore-pattern", "dist", "--ignore-pattern", ".next"]],
+  [
+    "TypeScript",
+    ["node_modules/typescript/bin/tsc", "--noEmit", "--incremental", "false"],
+  ],
+  ["ESLint", ["node_modules/eslint/bin/eslint.js", ".", "--max-warnings=0"]],
+  ["Scenario arithmetic", ["scripts/check-scenarios.mjs"]],
   ["Build", ["scripts/run-framework.mjs", "build"]],
 ];
 let failed = false;
