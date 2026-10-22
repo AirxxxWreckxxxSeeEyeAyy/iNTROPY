@@ -1,5 +1,5 @@
 import vinext from "vinext";
-import { defineConfig } from "vite";
+import { defineConfig, type Plugin } from "vite";
 import hostingConfig from "./.openai/hosting.json";
 import { readExecutionProfile } from "./scripts/execution-profile.mjs";
 import { sites } from "./build/sites-vite-plugin";
@@ -51,11 +51,43 @@ export default defineConfig(async () => {
   const { cloudflare } = await import("@cloudflare/vite-plugin");
 
   return {
+    build: { sourcemap: false },
     server: {
-      ...(managedLinux ? { host: "0.0.0.0", allowedHosts: ["terminal.local"] } : {}),
-      ...(isCodexSeatbeltSandbox ? { watch: { useFsEvents: false, usePolling: true } } : {}),
+      ...(managedLinux
+        ? { host: "0.0.0.0", allowedHosts: ["terminal.local"] }
+        : {}),
+      ...(isCodexSeatbeltSandbox
+        ? { watch: { useFsEvents: false, usePolling: true } }
+        : {}),
     },
     plugins: [
+      {
+        name: "shift-engine-client-boundary",
+        apply: "build",
+        generateBundle(_options, bundle) {
+          if (this.environment.name !== "client") return;
+          let audited = 0;
+          for (const output of Object.values(bundle)) {
+            if (output.type !== "chunk") continue;
+            for (const id of Object.keys(output.modules)) {
+              audited++;
+              if (
+                /\/(?:app\/(?:model|solar-math)\.ts|lib\/(?:energy-engine|api-json)\.ts)(?:\?|$)/.test(
+                  id.replaceAll("\\", "/"),
+                )
+              ) {
+                this.error(
+                  "Server calculation code entered the client bundle: " + id,
+                );
+              }
+            }
+          }
+          if (!audited) this.error("Client bundle audit inspected no modules.");
+          this.info(
+            `Server engine boundary passed: ${audited} client modules checked.`,
+          );
+        },
+      } satisfies Plugin,
       vinext(),
       sites({ mockAuth: !managedLinux }),
       cloudflare({

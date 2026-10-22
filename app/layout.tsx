@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "iNTROPY — Tampa Bay Energy Studio",
-  description: "Solar and battery scenario planning for customer presentations. Compare energy flows, storage configurations and estimated operating costs.",
+  description: "Compare solar and battery scenarios, modeled daily energy costs and editable assumptions. Explore the energy flow and prepare informed installer questions.",
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
