@@ -1,0 +1,52 @@
+                                                                 
+NOAA/EPA ULTRAVIOLET INDEX /UVI/ FORECAST                        
+NWS CLIMATE PREDICTION CENTER COLLEGE PARK MD                    
+224 PM EDT MON SEP 21 2026                                       
+                                                                 
+VALID SEP 22 2026 AT SOLAR NOON /APPROXIMATELY NOON              
+LOCAL STANDARD TIME OR 100 PM LOCAL DAYLIGHT TIME/               
+                                                                 
+THE UV INDEX IS CATEGORIZED BY THE WORLD HEALTH ORGANIZATION     
+AS FOLLOWS:                                                      
+           UVI             EXPOSURE LEVEL                        
+           0 1 2              LOW                                
+           3 4 5              MODERATE                           
+           6 7                HIGH                               
+           8 9 10             VERY HIGH                          
+           11 AND GREATER     EXTREME                            
+                                                                 
+FOR HEALTH RELATED ISSUES: WWW.EPA.GOV/SUNSAFETY                 
+FOR TECHNICAL INFORMATION ABOUT THE UV INDEX....                 
+GO TO THE NATIONAL WEATHER SERVICE UV INDEX WEB PAGE:            
+WWW.CPC.NCEP.NOAA.GOV/PRODUCTS/STRATOSPHERE/UV_INDEX             
+                                                                 
+CITY               STATE  UVI       CITY               STATE  UVI
+ALBUQUERQUE          NM     7       LITTLE ROCK          AR     7
+ANCHORAGE            AK     2       LOS ANGELES          CA     7
+ATLANTIC CITY        NJ     1       LOUISVILLE           KY     6
+ATLANTA              GA     7       MEMPHIS              TN     7
+BALTIMORE            MD     1       MIAMI                FL     3
+BILLINGS             MT     5       MILWAUKEE            WI     5
+BISMARCK             ND     3       MINNEAPOLIS          MN     5
+BOISE                ID     6       MOBILE               AL     8
+BOSTON               MA     5       NEW ORLEANS          LA     9
+BUFFALO              NY     5       NEW YORK             NY     1
+BURLINGTON           VT     5       NORFOLK              VA     5
+CHARLESTON           WV     1       OKLAHOMA CITY        OK     8
+CHARLESTON           SC     8       OMAHA                NE     3
+CHEYENNE             WY     7       PHILADELPHIA         PA     1
+CHICAGO              IL     3       PHOENIX              AZ     8
+CLEVELAND            OH     2       PITTSBURGH           PA     1
+CONCORD              NH     5       PORTLAND             ME     5
+DALLAS               TX     9       PORTLAND             OR     4
+DENVER               CO     7       PROVIDENCE           RI     3
+DES MOINES           IA     1       RALEIGH              NC     6
+DETROIT              MI     5       SALT LAKE CITY       UT     6
+DOVER                DE     1       SAN FRANCISCO        CA     6
+HARTFORD             CT     5       SAN JUAN             PR    11
+HONOLULU             HI    10       SEATTLE              WA     2
+HOUSTON              TX     8       SIOUX FALLS          SD     2
+INDIANAPOLIS         IN     6       ST. LOUIS            MO     4
+JACKSON              MS     8       TAMPA                FL     9
+JACKSONVILLE         FL     8       WASHINGTON           DC     0
+LAS VEGAS            NV     8       WICHITA              KS     7

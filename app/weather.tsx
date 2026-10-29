@@ -1,0 +1,291 @@
+"use client";
+import { useEffect, useState } from "react";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Slider } from "@/components/ui/slider";
+import { EnvironmentalStudio } from "./environment";
+import { type Config } from "./energy-config";
+const months = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+export function WeatherStudio({
+  c,
+  setC,
+}: {
+  c: Config;
+  setC: React.Dispatch<React.SetStateAction<Config>>;
+}) {
+  const [data, setData] = useState<
+      typeof import("../public/data/tampa-weather.json") | null
+    >(null),
+    [error, setError] = useState(false),
+    [month, setMonth] = useState(6),
+    [station, setStation] = useState("TPA");
+  useEffect(() => {
+    fetch("/data/tampa-weather.json")
+      .then((r) => {
+        if (!r.ok) throw Error();
+        return r.json() as Promise<
+          typeof import("../public/data/tampa-weather.json")
+        >;
+      })
+      .then(setData)
+      .catch(() => setError(true));
+  }, []);
+  const climate = data?.normals[month],
+    airport = data?.stations.find((s) => s.id === station),
+    cloud = airport?.rows[month];
+  return (
+    <main className="weather-main">
+      <div className="page-head">
+        <div>
+          <div className="eyebrow">TAMPA BAY FIELD NOTES</div>
+          <h1>Get to know your local sky.</h1>
+          <p>Choose a topic. Move through the seasons.</p>
+        </div>
+      </div>
+      <Tabs defaultValue="climate">
+        <TabsList className="topic-nav">
+          <TabsTrigger value="climate">Climate history</TabsTrigger>
+          <TabsTrigger value="airports">Airport clouds</TabsTrigger>
+          <TabsTrigger value="satellite">Satellite</TabsTrigger>
+          <TabsTrigger value="county">County energy</TabsTrigger>
+        </TabsList>
+        <TabsContent value="climate">
+          <section className="panel weather-card">
+            <div className="eyebrow">
+              01 / THE SEASONS · TAMPA INTERNATIONAL
+            </div>
+            <h2>How warm? How wet?</h2>
+            {climate ? (
+              <>
+                <div className="weather-stats">
+                  <div>
+                    <strong>{climate.meanF.toFixed(1)}°F</strong>
+                    <span>Typical {months[month]} temperature</span>
+                  </div>
+                  <div>
+                    <strong>{climate.rainIn.toFixed(2)} in</strong>
+                    <span>Typical {months[month]} rainfall</span>
+                  </div>
+                </div>
+                <label className="month-control">
+                  Explore a month <b>{months[month]}</b>
+                  <Slider
+                    aria-label="Climate month"
+                    min={0}
+                    max={11}
+                    step={1}
+                    value={[month]}
+                    onValueChange={(v) => setMonth(v[0])}
+                  />
+                </label>
+                <div className="month-grid">
+                  {data?.normals.map((r) => (
+                    <button
+                      key={r.month}
+                      aria-pressed={r.month === month}
+                      onClick={() => setMonth(r.month)}
+                    >
+                      <span>{months[r.month]}</span>
+                      <i style={{ height: r.rainIn * 9 + 8 }} />
+                      <small>{r.rainIn.toFixed(1)}″</small>
+                    </button>
+                  ))}
+                </div>
+                <p>
+                  Warmer months can increase cooling needs. Rainfall alone does
+                  not tell us how much power a panel will produce.
+                </p>
+                <details>
+                  <summary>Explore the historical record</summary>
+                  <p>
+                    NOAA 1991–2020 climate normals are 30-year monthly averages
+                    at Tampa International (USW00012842). {months[month]}{" "}
+                    average daily high: {climate.highF}°F; low: {climate.lowF}
+                    °F. These are historical climate averages, not a forecast or
+                    an exact reading at your home.
+                  </p>
+                </details>
+                <div className="source-foot">
+                  Source:{" "}
+                  <a
+                    href={data?.sources.climate}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    NOAA NCEI · 1991–2020 monthly normals ↗
+                  </a>
+                </div>
+              </>
+            ) : (
+              <p role="status">
+                {error
+                  ? "Climate archive unavailable."
+                  : "Loading climate history…"}
+              </p>
+            )}
+          </section>
+        </TabsContent>
+        <TabsContent value="airports">
+          <section className="panel weather-card">
+            <div className="eyebrow">02 / OBSERVED SKIES · 2025 ARCHIVE</div>
+            <h2>How often were clouds reported?</h2>
+            <Select value={station} onValueChange={setStation}>
+              <SelectTrigger aria-label="Airport weather station">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {[
+                  ["TPA", "Tampa International · ASOS"],
+                  ["PIE", "St. Pete–Clearwater · ASOS"],
+                  ["ZPH", "Zephyrhills · AWOS"],
+                ].map(([id, label]) => (
+                  <SelectItem value={id} key={id}>
+                    {label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {cloud ? (
+              <>
+                <div className="weather-stats">
+                  <div>
+                    <strong>{cloud.cloudyPct ?? "—"}%</strong>
+                    <span>Sampled hours reporting broken / overcast</span>
+                  </div>
+                  <div>
+                    <strong>
+                      {cloud.valid}/{cloud.expected}
+                    </strong>
+                    <span>Usable daytime hourly samples</span>
+                  </div>
+                </div>
+                <label className="month-control">
+                  Explore a month <b>{months[month]} 2025</b>
+                  <Slider
+                    aria-label="Cloud history month"
+                    min={0}
+                    max={11}
+                    step={1}
+                    value={[month]}
+                    onValueChange={(v) => setMonth(v[0])}
+                  />
+                </label>
+                <div className="cloud-breakdown">
+                  {(
+                    [
+                      ["clear", "No cloud detected"],
+                      ["some", "Few / scattered"],
+                      ["cloudy", "Broken / overcast"],
+                      ["obscured", "Sky obscured"],
+                    ] as const
+                  ).map(([key, label]) => (
+                    <div key={key}>
+                      <span>{label}</span>
+                      <progress
+                        value={cloud[key]}
+                        max={Math.max(1, cloud.valid)}
+                      />
+                      <b>
+                        {cloud.valid
+                          ? Math.round((cloud[key] / cloud.valid) * 100)
+                          : 0}
+                        %
+                      </b>
+                    </div>
+                  ))}
+                </div>
+                <p>
+                  Airport observations help describe nearby weather. They do not
+                  measure sunlight on your roof.
+                </p>
+                <details>
+                  <summary>ASOS, AWOS and FAA: explain the data</summary>
+                  <p>
+                    ASOS means Automated Surface Observing System. AWOS means
+                    Automated Weather Observing System. Both provide airport
+                    weather reports used in aviation. Historical METAR cloud
+                    reports here come from Iowa State’s archive of disseminated
+                    observations; FAA provides station context, not this archive
+                    download.
+                  </p>
+                  <p>
+                    We select the last routine report in each local hour from 8
+                    am through 5 pm (America/New_York), then use the greatest
+                    reported cloud category across up to four layers. Broken
+                    means 5–7 eighths covered; overcast means 8 eighths. Missing
+                    or unrecognized sky reports are excluded from percentages.
+                    The denominator includes obscured sky reports. This is a
+                    share of sampled hours, not cloud-area percentage or a
+                    measure of solar loss. Automated sensors have height and
+                    coverage limits; “clear” does not guarantee no high clouds.
+                    No automatic reduction is applied to the solar model.
+                  </p>
+                  <p>
+                    {cloud.expected - cloud.valid} expected hourly slots are
+                    missing or lack a usable sky category. Year: 2025. Retrieved{" "}
+                    {data?.retrievedAt}.
+                  </p>
+                </details>
+                <div className="source-foot">
+                  Sources:{" "}
+                  <a
+                    href={data?.sources.clouds}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Iowa Environmental Mesonet archive ↗
+                  </a>{" "}
+                  ·{" "}
+                  <a href={data?.sources.faa} target="_blank" rel="noreferrer">
+                    FAA ASOS/AWOS stations ↗
+                  </a>
+                </div>
+              </>
+            ) : (
+              <p role="status">
+                {error
+                  ? "Airport archive unavailable."
+                  : "Loading airport observations…"}
+              </p>
+            )}
+          </section>
+        </TabsContent>
+        <TabsContent value="satellite">
+          <EnvironmentalStudio
+            c={c}
+            setC={setC}
+            onApply={() => {}}
+            view="satellite"
+          />
+        </TabsContent>
+        <TabsContent value="county">
+          <EnvironmentalStudio
+            c={c}
+            setC={setC}
+            onApply={() => {}}
+            view="county"
+          />
+        </TabsContent>
+      </Tabs>
+    </main>
+  );
+}
