@@ -1,0 +1,13 @@
+#!/bin/bash
+# MIT License. Foreground alternative to the background tunnel LaunchAgent.
+set -u
+host=${1:-pro}
+if [[ $# -gt 1 || ! "$host" =~ ^[a-zA-Z0-9][a-zA-Z0-9._-]*$ ]]; then
+    printf 'Usage: pro-webui [SSH_ALIAS]\n' >&2
+    exit 2
+fi
+printf 'Open http://127.0.0.1:18080 in this Mac\047s browser. Ctrl-C closes the tunnel.\n'
+exec /usr/bin/ssh -o BatchMode=yes -o StrictHostKeyChecking=yes \
+    -o ExitOnForwardFailure=yes -o ServerAliveInterval=30 \
+    -o ServerAliveCountMax=3 -o ConnectTimeout=8 \
+    -N -T -L 127.0.0.1:18080:127.0.0.1:8080 "$host"
